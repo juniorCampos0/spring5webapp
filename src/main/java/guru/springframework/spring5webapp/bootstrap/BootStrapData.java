@@ -25,29 +25,46 @@ public class BootStrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Author jane = new Author("Jane", "Austen");
-        Book sense_and_sensibility = new Book("Sense and Sensibility", "12341234");
-        jane.getBooks().add(sense_and_sensibility);
-        sense_and_sensibility.getAuthors().add(jane);
+        System.out.println("Started in Bootstrap");
 
-        authorRepository.save(jane);
-        bookRepository.save(sense_and_sensibility);
+        Publisher publisher = new Publisher();
+        publisher.setName("SFG Publishing");
+        publisher.setCity("St Petersburg");
+        publisher.setState("FL");
 
-        Author bob = new Author("Robert", "Martin");
-        Book clean = new Book("Clean Code", "1234512345");
-        bob.getBooks().add(clean);
-        clean.getAuthors().add(bob);
+        publisherRepository.save(publisher);
 
-        authorRepository.save(bob);
-        bookRepository.save(clean);
+        System.out.println("Publisher Count: " + publisherRepository.count());
 
-        Publisher oreilly = new Publisher("O'reilly", "America");
-        publisherRepository.save(oreilly);
+        Author eric = new Author("Eric", "Evans");
+        Book ddd = new Book("Domain Driven Design", "123123");
+        eric.getBooks().add(ddd);
+        ddd.getAuthors().add(eric);
+
+        ddd.setPublisher(publisher);
+        publisher.getBooks().add(ddd);
+
+        authorRepository.save(eric);
+        bookRepository.save(ddd);
+        publisherRepository.save(publisher);
+
+        Author rod = new Author("Rod", "Johnson");
+        Book noEJB = new Book("J2EE Development without EJB", "3939459459");
+        rod.getBooks().add(noEJB);
+        noEJB.getAuthors().add(rod);
+
+        noEJB.setPublisher(publisher);
+        publisher.getBooks().add(noEJB);
+
+        authorRepository.save(rod);
+        bookRepository.save(noEJB);
+        publisherRepository.save(publisher);
 
         System.out.println("Started in Bootstrap");
         System.out.println("Number of Books: " + bookRepository.count());
         System.out.println("Number of Authors: " + authorRepository.count());
         System.out.println("Number of Publishers: " + publisherRepository.count());
+        System.out.println("Number of published books: " + publisher.getBooks().size());
 
     }
 
